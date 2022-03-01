@@ -82,18 +82,20 @@ class _MyAppState extends State<MyApp> {
     // questions = []; // does not work if questions is a const
 
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First App'),
-        ),
-        body: _questionIndex < _questions.length
-            ? Quiz(
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-                questions: _questions,
-              )
-            : Result(_totalScore),
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('My First App'),
       ),
-    );
+      body: _questionIndex < _questions.length
+          ? Quiz(
+              answerQuestion: _answerQuestion,
+              questionIndex: _questionIndex,
+              questions: _questions,
+            )
+          : Result(
+              _totalScore,
+              _resetQuiz,
+            ),
+    ));
   }
 }
