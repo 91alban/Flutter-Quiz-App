@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
 import './quiz.dart';
-import 'package:quiz_app/result.dart';
+import './result.dart';
+// void main() {
+//   runApp(MyApp());
+// }
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    // TODO: implement createState
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  final questions = const [
+class _MyAppState extends State<MyApp> {
+  final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
       'answers': [
@@ -28,14 +30,14 @@ class MyAppState extends State<MyApp> {
     {
       'questionText': 'What\'s your favorite animal?',
       'answers': [
-        {'text': 'Rabbit', 'score': 1},
-        {'text': 'Snake', 'score': 10},
-        {'text': 'Elephant', 'score': 3},
-        {'text': 'Lion', 'score': 5},
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
+        {'text': 'Lion', 'score': 9},
       ],
     },
     {
-      'questionText': 'What\'s your favorite instructor?',
+      'questionText': 'Who\'s your favorite instructor?',
       'answers': [
         {'text': 'Max', 'score': 1},
         {'text': 'Max', 'score': 1},
@@ -44,18 +46,27 @@ class MyAppState extends State<MyApp> {
       ],
     },
   ];
+  var _questionIndex = 0;
+  var _totalScore = 0;
 
-  var questionIndex = 0;
-  var totalScore = 0;
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
 
-  void answerQuestion(int score) {
-    totalScore += score;
+  void _answerQuestion(int score) {
+    // var aBool = true;
+    // aBool = false;
+
+    _totalScore += score;
 
     setState(() {
-      questionIndex = questionIndex + 1;
+      _questionIndex = _questionIndex + 1;
     });
-    print(questionIndex);
-    if (questionIndex < questions.length) {
+    print(_questionIndex);
+    if (_questionIndex < _questions.length) {
       print('We have more questions!');
     } else {
       print('No more questions!');
@@ -64,19 +75,25 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // var dummy = const ['Hello'];
+    // dummy.add('Max');
+    // print(dummy);
+    // dummy = [];
+    // questions = []; // does not work if questions is a const
+
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('My First App'),
-          ),
-          body: questionIndex < questions.length
-              ? Quiz(
-                  answerQuestion: answerQuestion,
-                  questionIndex: questionIndex,
-                  questions: questions,
-                )
-              : Result(totalScore)),
+        appBar: AppBar(
+          title: Text('My First App'),
+        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(_totalScore),
+      ),
     );
   }
 }
